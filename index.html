@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Post</title>
+  </head>
+  <body>
+    <form action = 'test.php' name = 'select' method = 'post'/><br>
+
+    <h3>SELECT</h3><br>
+
+    View Order of Rows:<br>
+    <select name = 'order' id = 'order'>
+      <option value = 'lastModified'>Date Last Modified</option>
+      <option value = 'ID'>ID</option>
+      <option value = 'PM2_5Value'>Value</option>
+    </select><br><br>
+
+    Select one option:<br>
+    <input type = 'radio' name ='radDir' value = 'DESC'/>Descending Order<br>
+    <input type = 'radio' name ='radDir' value = 'ASC'/>Ascending Order<br><br>
+
+    How many rows would you like to view?<br>
+    <input type = 'text' name = 'limit'/><br><br>
+
+    <input type = 'submit' value = 'Next Page'/>
+    </form>
+  </body>
+</html>
