@@ -176,7 +176,17 @@ raw_data = response.text
 ################################################################################
 # A hard-coded list of all the air quality monitors we care about.
 # At a later time we can load this list from a file.
-MONITOR_IDS = [1314, 1315, 1068, 1069, 1086, 1087, 1310, 1311, 1072, 1073, 1294, 1295, 1298, 1299, 1080, 1081]
+
+monitor_list = open("monitor_list.json", "r")
+ID_list = json.loads(monitor_list.read())
+sunshine_coast = ID_list[0]
+north = ID_list[1]
+prince_george = ID_list[2]
+interior = ID_list[3]
+island = ID_list[4]
+
+MONITOR_IDS = sunshine_coast[Stations]
+print(sunshine_coast[Stations])
 
 # Convert the data containing all purple air monitors into json.
 json_data = json.loads(raw_data)
