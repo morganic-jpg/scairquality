@@ -178,7 +178,8 @@ raw_data = response.text
 # At a later time we can load this list from a file.
 
 monitor_list = open("monitor_list.json", "r")
-ID_list = json.loads(monitor_list.read())
+region_list = json.loads(monitor_list.read())
+ID_list = region_list[Region]
 sunshine_coast = ID_list[0]
 north = ID_list[1]
 prince_george = ID_list[2]
