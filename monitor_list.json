@@ -5,19 +5,19 @@
       "Stations": [1314, 1315, 1068, 1069, 1086, 1087, 1310, 1311, 1072, 1073, 1294, 1295, 1298, 1299, 1080, 1081]
     },
     {
-      "Name": "North"
+      "Name": "North",
       "Stations":[25391]
     },
     {
-      "Name": "Prince George"
+      "Name": "Prince George",
       "Stations":[27749]
     },
     {
-      "Name": "Interior"
+      "Name": "Interior",
       "Stations":[2225]
     },
     {
-      "Name": "Island"
+      "Name": "Island",
       "Stations":[24443]
     }
   ]
