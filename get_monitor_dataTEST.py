@@ -179,7 +179,7 @@ raw_data = response.text
 
 monitor_list = open("monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
-ID_list = region_list["Region"]
+ID_list = region_list["Regions"]
 sunshine_coast = ID_list[0]
 north = ID_list[1]
 prince_george = ID_list[2]
