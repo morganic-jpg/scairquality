@@ -179,15 +179,15 @@ raw_data = response.text
 
 monitor_list = open("monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
-ID_list = region_list[Region]
+ID_list = region_list["Region"]
 sunshine_coast = ID_list[0]
 north = ID_list[1]
 prince_george = ID_list[2]
 interior = ID_list[3]
 island = ID_list[4]
 
-MONITOR_IDS = sunshine_coast[Stations]
-print(sunshine_coast[Stations])
+MONITOR_IDS = sunshine_coast["Stations"]
+print(sunshine_coast["Stations"])
 
 # Convert the data containing all purple air monitors into json.
 json_data = json.loads(raw_data)
