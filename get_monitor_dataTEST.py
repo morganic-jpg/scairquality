@@ -182,13 +182,11 @@ raw_data = response.text
 monitor_list = open("/home/legal-server/python_code/monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
 ID_list = region_list["Regions"]
+total_ids = []
 
 # concatenates all monitor ids from the region list into one variable
 for i in ID_list:
-    if i == ID_list[0]:
-        total_ids = ID_list[0]["Stations"]
-    else:
-        total_ids = total_ids + i["Stations"]
+    total_ids = total_ids + i["Stations"]
 
 MONITOR_IDS = total_ids
 
