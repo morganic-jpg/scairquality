@@ -179,7 +179,7 @@ raw_data = response.text
 
 # opens JSON file as a readable string and assigns the
 # region list to a variable
-monitor_list = open("monitor_list.json", "r")
+monitor_list = open("~/python_code/monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
 ID_list = region_list["Regions"]
 
