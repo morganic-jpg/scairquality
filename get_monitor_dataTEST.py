@@ -177,17 +177,20 @@ raw_data = response.text
 # A hard-coded list of all the air quality monitors we care about.
 # At a later time we can load this list from a file.
 
+# opens JSON file as a readable string and assigns the
+# region list to a variable
 monitor_list = open("monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
 ID_list = region_list["Regions"]
-sunshine_coast = ID_list[0]
-north = ID_list[1]
-prince_george = ID_list[2]
-interior = ID_list[3]
-island = ID_list[4]
 
-MONITOR_IDS = sunshine_coast["Stations"]
-print(sunshine_coast["Stations"])
+# concatenates all monitor ids from the region list into one variable
+for i in ID_list:
+    if i == ID_list[0]:
+        total_ids = ID_list[0]["Stations"]
+    else:
+        total_ids = total_ids + i["Stations"]
+
+MONITOR_IDS = total_ids
 
 # Convert the data containing all purple air monitors into json.
 json_data = json.loads(raw_data)
