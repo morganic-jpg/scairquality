@@ -190,6 +190,8 @@ for i in ID_list:
 
 MONITOR_IDS = total_ids
 
+monitor_list.close()
+
 # Convert the data containing all purple air monitors into json.
 json_data = json.loads(raw_data)
 
