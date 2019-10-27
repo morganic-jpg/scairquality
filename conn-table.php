@@ -117,8 +117,11 @@
       $sort = $_POST['order'];
       $v = $_POST['radDir'];
       $leng = $_POST['limit'];
+      $sort_region = $_POST['region'];
 
-      $sql = "SELECT * FROM monitor_data ORDER BY $sort $v LIMIT $leng";
+      $region = ("'" . $sort_region . "'");
+
+      $sql = "SELECT * FROM monitor_data WHERE Region = $region ORDER BY $sort $v LIMIT $leng";
       $result = $conn->query($sql);
 
       if ($result->num_rows > 0)
