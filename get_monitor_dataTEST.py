@@ -115,6 +115,7 @@ for table_name in mycursor:
 # but with more fields of course.
 MYSQL = "CREATE TABLE " + TABLE_NAME + " ("
 MYSQL = MYSQL + "ID INT" + ", "
+MYSQL = MYSQL + "Region VARCHAR(128)" + ", "
 MYSQL = MYSQL + "ParentID VARCHAR(10)" + ", "
 MYSQL = MYSQL + "Label VARCHAR(128)" + ", "
 #    - DEVICE_LOCATIONTYPE - <NOT USED> - maybe VARCHAR(20)
@@ -190,8 +191,6 @@ for i in ID_list:
 
 MONITOR_IDS = total_ids
 
-monitor_list.close()
-
 # Convert the data containing all purple air monitors into json.
 json_data = json.loads(raw_data)
 
@@ -225,13 +224,27 @@ for monitor in local_array:
     # Get the timestamp from the monitor data and convert to SQL date format.
     dt = datetime.fromtimestamp(monitor["lastModified"]/1000)
 
+    #Initialize two variables for assigning region
+    id_val = monitor["ID"]
+    monitor_region = 'none'
+
+    #Assign the region to the variable 'monitor_region'
+    #based on which region the ID falls under
+    for i in ID_list:
+        if id_val in i["Stations"]:
+            monitor_region = i["Name"]
+
+    print("MONITOR REGION IS:", monitor_region)
+
     # Create SQL string to insert a row into the database table.
-    sql = "INSERT INTO " + TABLE_NAME + " (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
+    sql = "INSERT INTO " + TABLE_NAME + " (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
 
     # Create a list of the data we are going to insert into the table.
-    val = (str(monitor.get("ID", 0)), str(monitor.get("ParentID", "null")), monitor.get("Label", "null"), str(monitor.get("THINGSPEAK_PRIMARY_ID", 0)), monitor.get("THINGSPEAK_PRIMARY_ID_READ_KEY", "null"), str(monitor.get("THINGSPEAK_SECONDARY_ID", 0)), monitor.get("THINGSPEAK_SECONDARY_ID_READ_KEY", "null"), str(monitor.get("Lat", 0)), str(monitor.get("Lon", 0)), str(monitor.get("PM2_5Value", 0)), monitor.get("Type", "null"), monitor.get("Hidden", "null"), str(monitor.get("Flag", "null")), str(monitor.get("isOwner", 0)), str(monitor.get("A_H", "null")), str(monitor.get("temp_f", 0)), str(monitor.get("humidity", 0)), str(monitor.get("pressure", 0)), str(monitor.get("AGE", 0)), str(monitor.get("v", 0)), str(monitor.get("v1", 0)), str(monitor.get("v2", 0)), str(monitor.get("v3", 0)), str(monitor.get("v4", 0)), str(monitor.get("v5", 0)), str(monitor.get("v6", 0)), str(monitor.get("pm", 0)), dt, str(monitor.get("timeSinceModified", "null")))
+    val = (str(monitor.get("ID", 0)), str(monitor.get("ParentID", "null")), monitor.get("Label", "null"), str(monitor.get("THINGSPEAK_PRIMARY_ID", 0)), monitor.get("THINGSPEAK_PRIMARY_ID_READ_KEY", "null"), str(monitor.get("THINGSPEAK_SECONDARY_ID", 0)), monitor.get("THINGSPEAK_SECONDARY_ID_READ_KEY", "null"), str(monitor.get("Lat", 0)), str(monitor.get("Lon", 0)), str(monitor.get("PM2_5Value", 0)), monitor.get("Type", "null"), monitor.get("Hidden", "null"), str(monitor.get("Flag", "null")), str(monitor.get("isOwner", 0)), str(monitor.get("A_H", "null")), str(monitor.get("temp_f", 0)), str(monitor.get("humidity", 0)), str(monitor.get("pressure", 0)), str(monitor.get("AGE", 0)), str(monitor.get("v", 0)), str(monitor.get("v1", 0)), str(monitor.get("v2", 0)), str(monitor.get("v3", 0)), str(monitor.get("v4", 0)), str(monitor.get("v5", 0)), str(monitor.get("v6", 0)), str(monitor.get("pm", 0)), dt, str(monitor.get("timeSinceModified", "null")), str(monitor_region))
 
     # Insert the data into the table.
     print("**********************INSERTING DATA**********************\n", sql, val)
     mycursor.execute(sql, val)
     mydb.commit()
+#Closes monitor list JSON to avoid memory leaks
+monitor_list.close()
