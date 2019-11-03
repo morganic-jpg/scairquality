@@ -177,6 +177,7 @@
             }
             echo('</select>');
         ?>
+        <input class = 'button' type = 'submit' value = 'Next Page'/>
     </form>
   </body>
 </html>
