@@ -243,7 +243,7 @@ for monitor in local_array:
         if id_val in i["Stations"]:
             monitor_region = i["Name"]
         elif channel_val in i["Stations"]:
-            monitor_region = i["Name"]
+            monitor_region = i["Name"] + ' B'
 
     print("MONITOR REGION IS:", monitor_region)
 
