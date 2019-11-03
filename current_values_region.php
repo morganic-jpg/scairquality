@@ -118,7 +118,7 @@
 
       $region = ("'" . $sort_region . "'");
 
-      $sql = "SELECT ID, Label, PM2_5Value, Region, AVG(PM2_5Value), MAX(PM2_5Value), lastModified FROM monitor_data GROUP BY ID HAVING Region = 'Sunshine Coast'";
+      $sql = "SELECT ID, Label, PM2_5Value, Region, AVG(PM2_5Value), MAX(PM2_5Value), lastModified FROM monitor_data GROUP BY ID HAVING Region = $region";
       $result = $conn->query($sql);
 
       if ($result->num_rows > 0)
