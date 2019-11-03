@@ -187,7 +187,13 @@ total_ids = []
 
 # concatenates all monitor ids from the region list into one variable
 for i in ID_list:
-    total_ids = total_ids + i["Stations"]
+    #for every ID in each region add another ID equal to the original
+    #ID plus 1 (This is the B channel for each monitor)
+    for x in i["Stations"]:
+        a_channel = x
+        b_channel = (x + 1)
+        total_ids.append(a_channel) 
+        total_ids.append(b_channel)
 
 MONITOR_IDS = total_ids
 
