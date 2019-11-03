@@ -232,12 +232,17 @@ for monitor in local_array:
 
     #Initialize two variables for assigning region
     id_val = monitor["ID"]
+    #This Value will be used for B channel Monitors
+    channel_val = (id_val - 1)
+    #Default region
     monitor_region = 'none'
 
     #Assign the region to the variable 'monitor_region'
     #based on which region the ID falls under
     for i in ID_list:
         if id_val in i["Stations"]:
+            monitor_region = i["Name"]
+        elif channel_val in i["Stations"]:
             monitor_region = i["Name"]
 
     print("MONITOR REGION IS:", monitor_region)
