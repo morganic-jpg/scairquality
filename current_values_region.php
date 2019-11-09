@@ -97,6 +97,47 @@
         width: 1000px;
 				padding: 17px 25px;
       }
+      
+      body
+			{
+				text-align: center;
+			}
+
+      form
+      {
+        margin-top: 0px;
+      }
+
+      p
+			{
+				background-color: #4ABF22;
+				border-radius: 5px;
+				color: white;
+				text-align: center;
+				font-size: 16px;
+				margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1em;
+        width: 300px;
+				padding: 5px 17px;
+			}
+
+      .button
+      {
+        background-color: #4ABF22;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        display: block;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 2em;
+        margin-left: auto;
+        margin-right: auto;
+        width: 200;
+      }
     </style>
   </head>
   <body>
