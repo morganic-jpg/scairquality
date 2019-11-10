@@ -196,7 +196,7 @@
       }
       $conn->close();
     ?>
-    <form action = 'current_values_region.php' name = 'select' method = 'post'/>
+    <form action = 'current_values_regionTEST.php' name = 'select' method = 'post'/>
         <p>Select Region:</p>
         <?php
             $monitor_list = file_get_contents('/home/legal-server/python_code/monitor_list.json');
