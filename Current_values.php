@@ -213,8 +213,8 @@
             echo("<select name = 'region'>");
             for ($i = 0; $i < $x; $i++)
             {
-            $region[$i] = $array[$i]["Name"];
-            echo("<option value = '$region[$i]'>$region[$i]</option>");
+              $region_val = $array[$i]["Name"];
+              echo("<option value = '$region_val'>$region_val</option>");
             }
             echo('</select>');
         ?>
