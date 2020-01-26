@@ -2,9 +2,9 @@
 <html class = 'a'>
   <head>
   <div>
-     <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+    <h1 class = 'a'>Sunshine Coast Air Quality</h1>
     <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-     <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/current_values.php'">
+    <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/Current_values.php'">
     <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
    </div>
     <style>
