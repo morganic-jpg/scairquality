@@ -3,7 +3,9 @@
   <head>
     <title>SC Air Quality</title>
     <h1 class = 'a'>Sunshine Coast Air Quality</h1>
-    <a href = '/index.php' class = 'button' type = 'home' value = 'Home'>
+    <div>
+      <a href = '/index.php' class = 'button' value = 'Home'>
+    </div>
 
     <style>
       h1.a
