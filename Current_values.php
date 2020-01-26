@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html class = 'a'>
   <head>
-    <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+  <div>
+     <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+    <input class = 'option' value = 'Home' onclick = "window.location.href = '/home.php'">
+     <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/current_values.php'">
+    <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+   </div>
     <style>
       h1.a
       {
@@ -122,6 +127,48 @@
 				padding: 5px 17px;
 			}
 
+      .option
+      {
+        background-color: #4ABF22;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 8px 8px;
+        text-align: center;
+        display: inline;
+        font-size: 12px;
+        cursor: pointer;
+        margin: auto;
+      }
+
+      .option2
+      {
+        background-color: #4ABF22;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 8px 8px;
+        text-align: center;
+        display: inline;
+        font-size: 12px;
+        cursor: pointer;
+        margin: auto;
+      }
+
+      .option3
+      {
+        background-color: #4ABF22;
+        border: none;
+        border-radius: 7px;
+        color: white;
+        padding: 8px 8px;
+        text-align: center;
+        display: inline;
+        font-size: 12px;
+        cursor: pointer;
+        margin: auto;
+      }
+
       .button
       {
         background-color: #4ABF22;
@@ -159,7 +206,9 @@
 
       $region = ("'" . $sort_region . "'");
 
-      $sql = "SELECT ID, Label, PM2_5Value, Region, AVG(PM2_5Value), MAX(PM2_5Value), lastModified FROM monitor_data GROUP BY ID HAVING Region = 'Sunshine Coast'";
+      $sql = "SELECT * FROM (SELECT *, max(lastModified) AS max_date FROM monitor_data GROUP BY ID HAVING Region = 'Sunshine Coast') AS aggregated_table INNER JOIN monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified WHERE table2.Region = 'Sunshine Coast' GROUP BY table2.lastModified ORDER BY table2.ID";                                                        
+      
+      #$sql = "SELECT ID, Label, PM2_5Value, Region, AVG(PM2_5Value), MAX(PM2_5Value), lastModified FROM monitor_data GROUP BY ID HAVING Region = 'Sunshine Coast'";
       $result = $conn->query($sql);
 
       if ($result->num_rows > 0)
@@ -170,8 +219,6 @@
            <th>ID</th>
            <th>Location</th>
            <th>Air Quality Value</th>
-           <th>Average</th>
-           <th>Highest Recorded</th>
            <th>Last Modified</th>
 
          </tr>";
@@ -181,17 +228,12 @@
             $id = $row["ID"];
             $label = $row["Label"];
             $value = $row["PM2_5Value"];
-            $avg = $row["AVG(PM2_5Value)"];
-            $max = $row["MAX(PM2_5Value)"];
             $last = $row["lastModified"];
-
 
             echo "<tr>";
             echo "<td>$id</td>";
             echo "<td>$label</td>";
             echo "<td>$value</td>";
-            echo "<td>$avg</td>";
-            echo "<td>$max</td>";
             echo "<td>$last</td>";
         }
       }
@@ -201,7 +243,7 @@
       }
       $conn->close();
     ?>
-    <form action = 'current_values_region.php' name = 'select' method = 'post'/>
+    <form action = 'current_values_regionTEST.php' name = 'select' method = 'post'/>
         <p>Select Region:</p>
         <?php
             $monitor_list = file_get_contents('/home/legal-server/python_code/monitor_list.json');
@@ -218,7 +260,7 @@
             }
             echo('</select>');
         ?>
-        <input class = 'button' type = 'submit' value = 'Next Page'/>
+        <input class = 'button' type = 'submit' value = 'Change Region'/><br><br>
     </form>
   </body>
 </html>
