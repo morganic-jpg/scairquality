@@ -3,7 +3,7 @@
   <head>
    <div>
     <h1 class = 'a'>Sunshine Coast Air Quality</h1>
-     <input class = 'option' value = 'Home' onclick = "window.location.href = '/home.php'">
+     <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
      <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/current_values.php'">
     <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
   </div>
@@ -14,13 +14,13 @@
         border: none;
         border-radius: 5px;
         color: white;
-        padding: 10px 10px;
+        padding: 8px 10px;
         text-align: center;
         display: block;
         font-size: 40px;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 80px;
+        margin-bottom: 5px;
         width: 500px;
       }
 
