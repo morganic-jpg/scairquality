@@ -2,6 +2,7 @@
 <html class = 'a'>
   <head>
     <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+    <a href = '/index.php' class = 'button' type = 'home' value = 'Home'>
     <style>
       h1.a
       {
@@ -213,7 +214,7 @@
             }
             echo('</select>');
         ?>
-        <input class = 'button' type = 'submit' value = 'Next Page'/>
+        <input class = 'button' type = 'submit' value = 'Change Region'/><br><br>
     </form>
   </body>
 </html>
