@@ -13,8 +13,13 @@
             @import url('global.css');
             #map 
             {
-                height: 400px;  
-                width: 100%;  
+                height: 600px;  
+                width: 600px;
+                border-radius: 7px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 40px;
+                  
             }
         </style>
     </head>
@@ -24,22 +29,23 @@
         <script>
             var map;
             var marker;
+            var infowindow;
             var red_icon;
             var green_icon;
             var locations;
 
             function initMap()
             {
-                var vancouver = {lat: 49.2827, lng: 123.1207};
+                var vancouver = {lat: 49.2827, lng: -123.1207};
                 infowindow = new google.maps.InfoWindow();
-                map = new google.maps.Map(document.getElementByID('map'), {
+                map = new google.maps.Map(document.getElementById('map'), {
                     center: vancouver,
                     zoom: 7
                 });
             }
         </script>
         <script async defer
-        src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqmUy5txyE_WJHzjLC5EWN-2K14rVjNLQ&callback=initMap">
+        src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF79_ILKy8Oz-oN3hVoSjLFIUOjH-GEoU&callback=initMap">
         </script>
     </body>
 </html>
