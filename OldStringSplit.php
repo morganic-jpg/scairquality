@@ -40,7 +40,7 @@
             $region = ("'" . $sort_region . "'");
 
             #$sql = "SELECT * FROM (SELECT *, max(lastModified) AS max_date FROM monitor_data GROUP BY ID) AS aggregated_table INNER JOIN monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified GROUP BY table2.lastModified ORDER BY table2.ID";                                                        
-            $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified, MAX, MIN, AVG FROM Current_Data";
+            $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified FROM Current_Data";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0)
@@ -53,16 +53,23 @@
                     $label = $row["Label"];
                     $value = $row["PM2_5Value"];
                     $last = $row["lastModified"];
-                    $lat = $row["Lat"];
-                    $lng = $row["Lon"];
-                    $max = $row["MAX"];
-                    $min = $row["MIN"];
-                    $avg = $row["AVG"];
+                    $latlng = 'lat: ' . $row["Lat"] . ', lng: ' . $row["Lon"];
 
-                    $monitor_array[] = array($id, $label, $value, $last, $lat, $lng, $max, $min, $avg);
+                    $monitor_array[] = array($id, $label, $value, $last, $latlng);
                 }
 
-                //converts PHP array into a format javascript can interpret
+                //Extracts Lat Lng Pairs from the array and combines into a string with | as a delimiter
+                foreach ($monitor_array as $array_element) 
+                {
+                    $latlng_array = $latlng_array . '|' . $array_element[4];
+                }
+
+                //Extracts Air Quality from the array and combines into a string with | as a delimiter
+                foreach ($monitor_array as $array_element)
+                {
+                    $airqual_array = $airqual_array . '|' . $array_element[2];
+                }
+
                 $javascriptarray = json_encode($monitor_array);
             }
             else
@@ -79,17 +86,12 @@
             var marker;
             var locations;
             var vancouver = {lat: 49.2827, lng: -123.1207};
-            var rounded = new Array();
-            var labels = new Array();
-            var contentstring = new Array();
-            var avg_rounded = new Array();
+
+            var master = <?php echo $javascriptarray ?>;
+            console.log(master);
 
             function setMarkers()
             {
-                var infowindow = new google.maps.InfoWindow();
-                var master = <?php echo $javascriptarray ?>;
-                console.log(master);
-
                 var image_med = {
                 url: "https://scairquality.ca/Orange.png",
                 size: new google.maps.Size(50, 50),
@@ -113,50 +115,64 @@
 
                 var image_err = {
                 url: "https://scairquality.ca/err.png",
-                size: new google.maps.Size(40, 40),
+                size: new google.maps.Size(64, 64),
                 origin: new google.maps.Point(0,0),
-                anchor: new google.maps.Point(20,20)
+                anchor: new google.maps.Point(32,32)
                 };
 
-                console.log(master.length);
+                //Converts the string of PHP data back into a javascript array by splitting on the | used as a delimiter
+                var Location = "<?php echo $latlng_array; ?>";
+                var latlngs = Location.split("|");
+                latlngs.shift();
+                var airqual = "<?php echo $airqual_array; ?>";
+                var airqualvals = airqual.split("|");
+                airqualvals.shift();
 
-                for (i = 0; i < master.length; i++)
+                var infowindow = new google.maps.InfoWindow();
+
+
+                for (i = 0; i < latlngs.length; i++)
                 {
-                    //Sets the Lat Lng and Air quality Value for each sensor
-                    var location = new google.maps.LatLng(master[i][4], master[i][5]);
+                    //Converts the array of lat lngs into javascript objects by splitting on the , and on the : and recombining
+                    var string1 = latlngs[i];
+                    var properties = string1.split(', ');
+                    var obj = {};
+                    properties.forEach(function(property) {
+                        var tup = property.split(':');
+                        obj[tup[0]] = Number(tup[1]);
+                    });
 
-                    rounded[i] = String(Math.round(master[i][2] * 10) / 10);
-                    avg_rounded[i] = String(Math.round(master[i][8] * 10) / 10);
-                
-                    //Decides what size and color icon to use based on air quality value
+                    //Takes the air quality value corresponding to the loop # and rounds it to one  
+                    //decimal place before converting it to a string for the google marker property
+                    var airstring = airqualvals[i];
+                    var rounded = String(Math.round(airstring * 10) / 10);
+
                     var sized_icon;
-                    if ((rounded[i] >= 100) && (rounded[i] < 1000))
+                    if (rounded >= 100)
                     {
                         sized_icon = image_large;
                     }
-                    else if ((rounded[i] < 100) && (rounded[i] >= 10))
+                    else if ((rounded < 100) && (rounded >= 10))
                     {
                         sized_icon = image_med;
                     }
-                    else if (rounded[i] >= 1000)
+                    else if (rounded > 1000)
                     {
                         sized_icon = image_err;
-                        rounded[i] = "E";
+                        rounded = "E";
                     }
                     else
                     {
                         sized_icon = image_small;
                     }
-
-                    contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0] + "<br>" + "Max: " + master[i][6] + " Min: " + master[i][7] + " Avg: " + avg_rounded[i];
                 
                     //creates new markers
-                    var marker = new google.maps.Marker({position: location, map: map, label: rounded[i], icon: sized_icon});
+                    var marker = new google.maps.Marker({position: obj, map: map, label: rounded, icon: sized_icon});
                     
-                    //creates pop-ups
+                    //creates pop-ups (this wont work until i fix the issue with the PHP and Javascript Array)
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
-                            infowindow.setContent(contentstring[i]);
+                            infowindow.setContent(rounded);
                             infowindow.open(map, marker);
                         }
                     })(marker, i)); 
@@ -169,14 +185,14 @@
                 map = new google.maps.Map(document.getElementById('map'), {
                     center: vancouver,
                     zoom: 7,
-                    mapTypeId: 'terrain'
+                    mapTypeId: 'hybrid'
                 });
 
                 setMarkers();
             }
         </script>
         <script async defer
-            src = 'https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap'>
+            src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAMGwGj7ub63upwbV5RAgGcnF7-qevf414&callback=initMap'>
         </script>
     </body>
 </html>

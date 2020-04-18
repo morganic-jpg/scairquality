@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
       $servername = "localhost";
       $username = "airdata";
@@ -23,16 +24,7 @@
 
       if ($result->num_rows > 0)
       {
-        echo
-        "<table border ='1'>
-         <tr>
-           <th>ID</th>
-           <th>Location</th>
-           <th>Air Quality Value</th>
-           <th>Last Modified</th>
-           <th>Lat Long</th>
-
-         </tr>";
+        $monitor_array = array();
 
         while($row = $result->fetch_assoc())
         {
@@ -40,15 +32,13 @@
             $label = $row["Label"];
             $value = $row["PM2_5Value"];
             $last = $row["lastModified"];
-            $latlng = 'Lat: ' . $row["Lat"] . ', Lng: ' . $row["Lon"];
+            $latlng = 'lat: ' . $row["Lat"] . ', lng: ' . $row["Lon"];
 
-            echo "<tr>";
-            echo "<td>$id</td>";
-            echo "<td>$label</td>";
-            echo "<td>$value</td>";
-            echo "<td>$last</td>";
-            echo "<td>$latlng</td>";
+            $monitor_array[] = array($id, $label, $value, $last, $latlng);
         }
+        print_r($monitor_array);
+
+        $location1 = $monitor_array[0][4];
       }
       else
       {
@@ -56,3 +46,5 @@
       }
       $conn->close();
     ?>
+<body>
+      <p>Location = {<?php echo $location1 ?>}
