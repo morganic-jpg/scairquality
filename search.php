@@ -59,6 +59,8 @@
       <input type = 'text' name = 'limit'/>
 
       <input class = 'button' type = 'submit' value = 'Next Page'/>
+
+      <input class = 'option' value = 'Individual Search' onclick = "window.location.href = '/Individual_Search.php'">
     </form>
   </body>
 </html>

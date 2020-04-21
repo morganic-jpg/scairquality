@@ -1,105 +1,18 @@
 <!DOCTYPE html>
 <html class = 'a'>
   <head>
-    <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+    <div>
+      <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+      <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
+      <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/Current_values.php'">
+      <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+   </div>
     <style>
-      h1.a
-      {
-        background-color: #4ABF22;
-        border: none;
-        border-radius: 5px;
-        color: white;
-        padding: 10px 10px;
-        text-align: center;
-        display: block;
-        font-size: 40px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 80px;
-        width: 500px;
-      }
-
-      html.a
-      {
-        background-color: #302F2F;
-        color: black;
-        font-size: 20px;
-      }
-
-      tr
-      {
-        background-color: #368C19;
-				border-radius: 7px;
-        border: none;
-				color: white;
-				text-align: center;
-				font-size: 16px;
-				margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 1em;
-        width: 300px;
-				padding: 5px 17px;
-
-        -webkit-box-shadow: 0 8px 6px -6px black;
-           -moz-box-shadow: 0 8px 6px -6px black;
-                box-shadow: 0 8px 6px -6px black;
-      }
-
-      th
-      {
-        background-color: #368C19;
-				border-radius: 7px;
-        border: none;
-				color: white;
-				text-align: center;
-				font-size: 16px;
-				margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 1em;
-        width: 300px;
-				padding: 5px 17px;
-
-        -webkit-box-shadow: 0 8px 6px -6px black;
-           -moz-box-shadow: 0 8px 6px -6px black;
-                box-shadow: 0 8px 6px -6px black;
-      }
-
-      td
-      {
-        background-color: #368C19;
-				border-radius: 7px;
-        border: none;
-				color: white;
-				text-align: center;
-				font-size: 16px;
-				margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 1em;
-        width: 300px;
-				padding: 5px 17px;
-
-        -webkit-box-shadow: 0 8px 6px -6px black;
-           -moz-box-shadow: 0 8px 6px -6px black;
-                box-shadow: 0 8px 6px -6px black;
-      }
-
-      table
-      {
-        background-color: #4ABF22;
-				border-radius: 7px;
-        border: none;
-				color: white;
-				text-align: center;
-				font-size: 16px;
-				margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 1em;
-        width: 1000px;
-				padding: 17px 25px;
-      }
+      @import url('current_vals.css');
     </style>
   </head>
   <body>
+    <br>
     <?php
       $servername = "localhost";
       $username = "airdata";

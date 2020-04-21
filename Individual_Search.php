@@ -26,7 +26,7 @@
         </img>
       </a>
     </div>
-    <form action = 'conn-table-ind.php' name = 'select' method = 'post'/><br><br>
+    <form action = 'conn-table-individual.php' name = 'select1' method = 'post'/><br><br>
       <p>Enter ID of Sensor:</p>
       <input type = 'text' name = 'id_box' value = '1086'/>
 
