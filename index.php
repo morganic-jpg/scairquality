@@ -21,11 +21,13 @@
                   
             }
         </style>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
         <?php
             $servername = "localhost";
             $username = "airdata";
             $password = "AESl0uis!";
             $dbname = "airdata";
+            $region_include = '("Sunshine Coast", "Northern Interior", "Southern Interior", "Lower Mainland", "Vancouver Island & Other Islands")';
 
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -40,7 +42,8 @@
             $region = ("'" . $sort_region . "'");
 
             #$sql = "SELECT * FROM (SELECT *, max(lastModified) AS max_date FROM monitor_data GROUP BY ID) AS aggregated_table INNER JOIN monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified GROUP BY table2.lastModified ORDER BY table2.ID";                                                        
-            $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified, MAX, MIN, AVG FROM Current_Data";
+            #$sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified, MAX, MIN, AVG FROM current_data";
+            $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified, v3, v5, v6 FROM current_data WHERE Region in $region_include";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0)
@@ -54,12 +57,16 @@
                     $value = $row["PM2_5Value"];
                     $last = $row["lastModified"];
                     $lat = $row["Lat"];
-                    $lng = $row["Lon"];
-                    $max = $row["MAX"];
-                    $min = $row["MIN"];
-                    $avg = $row["AVG"];
+                    $lng = $row["Lon"]; 
+                    $v3 = $row["v3"];
+                    $v5 = $row["v5"];
+                    $v6 = $row["v6"];
+                    #$max = $row["MAX"];
+                    #$min = $row["MIN"];
+                    #$avg = $row["AVG"];
 
-                    $monitor_array[] = array($id, $label, $value, $last, $lat, $lng, $max, $min, $avg);
+                    #$monitor_array[] = array($id, $label, $value, $last, $lat, $lng, $max, $min, $avg);
+                    $monitor_array[] = array($id, $label, $value, $last, $lat, $lng, $v3, $v5, $v6);
                 }
 
                 //converts PHP array into a format javascript can interpret
@@ -74,6 +81,7 @@
     </head>
     <body>
         <div id='map'></div>
+        <div id = 'container' style = 'width:400px; height:200px;'></div>
         <script>
             var map;
             var marker;
@@ -126,7 +134,7 @@
                     var location = new google.maps.LatLng(master[i][4], master[i][5]);
 
                     rounded[i] = String(Math.round(master[i][2] * 10) / 10);
-                    avg_rounded[i] = String(Math.round(master[i][8] * 10) / 10);
+                    //avg_rounded[i] = String(Math.round(master[i][8] * 10) / 10);
                 
                     //Decides what size and color icon to use based on air quality value
                     var sized_icon;
@@ -148,7 +156,7 @@
                         sized_icon = image_small;
                     }
 
-                    contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0] + "<br>" + "Max: " + master[i][6] + " Min: " + master[i][7] + " Avg: " + avg_rounded[i];
+                    contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0] + "<br>" + "Past Hr: " + master[i][6] + " Past 24 Hrs: " + master[i][7] + " Past Week: " + master[i][8];
                 
                     //creates new markers
                     var marker = new google.maps.Marker({position: location, map: map, label: rounded[i], icon: sized_icon});
@@ -164,6 +172,32 @@
 
             }
 
+           /* document.addEventListener('DOMContentLoaded', function () {
+                var myChart = Highcharts.chart('container', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Air Quality Values'
+                    },
+                    xAxis: {
+                        title: {
+                            text: 'Day'
+                        }, 
+                        tickInterval: 7
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'ug m<sup>3</sup>'
+                        }
+                    },
+                    series: [{
+                        name: 'Sensor x',
+                        data: [1, 0, 4]
+                    }]
+                });
+            });*/
+
             function initMap()
             {
                 map = new google.maps.Map(document.getElementById('map'), {
@@ -176,7 +210,7 @@
             }
         </script>
         <script async defer
-            src = 'https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap'>
+            src = ''>
         </script>
     </body>
 </html>

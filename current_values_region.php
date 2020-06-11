@@ -32,7 +32,7 @@
       $region = ("'" . $sort_region . "'");
 
       #$sql = "SELECT * FROM (SELECT *, max(lastModified) AS max_date FROM monitor_data GROUP BY ID HAVING Region = $region) AS aggregated_table INNER JOIN monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified WHERE table2.Region = $region GROUP BY table2.lastModified ORDER BY table2.ID";                                                        
-      $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified FROM Current_Data WHERE Region = $region";
+      $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified FROM current_data WHERE Region = $region";
       $result = $conn->query($sql);
 
       if ($result->num_rows > 0)
