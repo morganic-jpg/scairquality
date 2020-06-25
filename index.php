@@ -5,7 +5,7 @@
         <div>
             <h1 class = 'a'>Sunshine Coast Air Quality</h1>
             <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-            <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/Current_values.php'">
+            <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
             <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
         </div>
         <style>
@@ -38,11 +38,8 @@
             }
 
             $sort_region = $_POST['region'];
+	    $region = ("'" . $sort_region . "'");
 
-            $region = ("'" . $sort_region . "'");
-
-            #$sql = "SELECT * FROM (SELECT *, max(lastModified) AS max_date FROM monitor_data GROUP BY ID) AS aggregated_table INNER JOIN monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified GROUP BY table2.lastModified ORDER BY table2.ID";                                                        
-            #$sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified, MAX, MIN, AVG FROM current_data";
             $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified, v3, v5, v6 FROM current_data WHERE Region in $region_include";
             $result = $conn->query($sql);
 
