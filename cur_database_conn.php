@@ -15,7 +15,7 @@
   $sort_region = $_POST['region'];
   $region = ("'" . $sort_region . "'");
 
-  $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified FROM current_data WHERE Region = $region";
+  $sql = "SELECT ID, Label, PM2_5Value, Lat, Lon, lastModified FROM cur_avg_data WHERE Region = $region";
   $result = $conn->query($sql);
 
   if ($result->num_rows > 0)
@@ -47,7 +47,7 @@
   }
   else
   {
-    echo "0 results";
+    //echo "0 results";
   }
   $conn->close();
 ?>
