@@ -42,7 +42,7 @@
             }
             #correction_factor
             {
-                margin: 5px;
+                margin: 2px;
             }
            
         </style>
@@ -68,6 +68,8 @@
         <script>
             var map;
             var is_open = false;
+            var open_0 = false;
+            var open_1 = false;
             var master;
             var markers = [];
             var gibsons = {lat: 49.401154, lng: -123.5075};
@@ -99,6 +101,15 @@
                 var correction_type = $("#correction_factor").val();
                 Cookies.set('correction_factor', correction_type);
                 ajaxRetrieve();
+
+                });
+
+            //Triggers when a change occurs in the specified element
+            $("#settings").on('change','#zoom_options', function() {
+
+                var correction_type = $("#zoom_options").val();
+                Cookies.set('location_zoom', correction_type);
+                setMapzoom();
 
                 });
             });

@@ -1,44 +1,83 @@
-
-            function openPopup()
-            {
-                var settingstring = "<input type = 'button' class = 'button' onclick = 'zoomChange();' value = 'Change Location Zoom'><br>" +
-                "<select id = 'correction_factor' class = 'option'>" +
-                    "<option value = '0'>Correction Factor:</option>" +
+            var settingstring_1 = "<input style = 'margin: 2px;' type = 'button' class = 'button' onclick = 'zoomdropDown();' value = 'Change Location Zoom'><br>";
+            var settingstring_2 = "<input style = 'margin: 2px;' type = 'button' class = 'button' onclick = 'dropDown();' value = 'Change Correction Factor'><br>";
+            var settingstring = settingstring_1 + settingstring_2;
+            var zoomdropdown = "<select id = 'zoom_options' class = 'option'>" +
+                "<option hidden disabled selected value>-- Select Option --</option>" +
+                    "<option value = '1'>Center on Location</option>" +
+                    "<option value = '0'>Center on Gibsons</option>" +
+                "<select>";
+            var correctdropdown = "<select id = 'correction_factor' class = 'option'>" +
+                "<option hidden disabled selected value>-- Select Option --</option>" +
+                    "<option value = '0'>No Correction Factor</option>" +
                     "<option value = '1'>AQ-SPEC</option>" +
                     "<option value = '2'>LRAPA</option>" +
                     "<option value = '3'>U of Utah</option>" +
                     "<option value = '4'>UNBC</option>" +
                 "<select>";
+            
+            function dropDown()
+            {   
+                if (open_0 == true && open_1 == true)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2);
+                    open_0 = false;
+                }
+                else if (open_0 == false && open_1 == false)
+                {
+                    $('#settings').html(settingstring + correctdropdown);
+                    open_0 = true;
+                }
+                else if (open_0 == false && open_1 == true)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown);
+                    open_0 = true;
+                }
+                else if (open_0 == true && open_1 == false)
+                {
+                    $('#settings').html(settingstring);
+                    open_0 = false;
+                }
+                
+            }
 
+            function zoomdropDown()
+            {   
+                if (open_1 == true && open_0 == true)
+                {
+                    $('#settings').html(settingstring + correctdropdown);
+                    open_1 = false;
+                }
+                else if (open_1 == false && open_0 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2);
+                    open_1 = true;
+                }
+                else if (open_1 == false && open_0 == true)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown);
+                    open_1 = true;
+                }
+                else if (open_1 == true && open_0 == false)
+                {
+                    $('#settings').html(settingstring);
+                    open_1 = false;
+                }
+            }
+            
+            function openPopup()
+            {
                 if (is_open == true)
                 {
                     $('#settings').html(null);
                     is_open = false;
-                    console.log('2: ' + is_open);
+                    open_0 = false;
+                    open_1 = false;
                 }
                 else if (is_open == false)
                 {
                     $('#settings').html(settingstring);
                     is_open = true;
-                    console.log('3: ' + is_open);
                 }
-            }
-
-            function zoomChange()
-            {
-                var current = Cookies.get('location_zoom');
-                if (current == 1)
-                {
-                    Cookies.set('location_zoom', 0);
-                }
-                else
-                {
-                    Cookies.set('location_zoom', 1);
-                }
-
-                $('#settings').html(null);
-                is_open = false;
-                setMapzoom();
             }
 
             function ajaxRetrieve()
