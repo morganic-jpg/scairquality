@@ -5,8 +5,8 @@
   <div>
     <h1 class = 'a'>Sunshine Coast Air Quality</h1>
     <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-    <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
-    <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+    <input class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
+    <input class = 'option' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
    </div>
     <style>
       @import url('current_vals.css');
@@ -14,9 +14,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
-  <p>Select Region:</p>
   <div id= 'region_selection'>
-    <select id = 'region' name = 'region'>
+    <select id = 'region' name = 'region' class = 'option' style = 'margin-top: 30px;'>
       <option>Select Region:</option>
       <?php
           $monitor_list = file_get_contents('/home/legal-server/python_code/monitor_list.json');
@@ -41,6 +40,7 @@
     // Variable to hold request
     var request;
 
+    //Triggers when a change occurs in the specified element
     $("#region_selection").on('change','#region', function() {
 
       // Abort any pending request

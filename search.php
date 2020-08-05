@@ -5,8 +5,8 @@
     <div>
       <h1 class = 'a'>Sunshine Coast Air Quality</h1>
       <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-      <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
-      <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+      <input class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
+      <input class = 'option' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
     </div>
 
     <style>
@@ -26,7 +26,7 @@
         </img>
       </a>
     </div>
-    <form action = 'conn-table.php' name = 'select' method = 'post'/><br><br>
+    <form action = 'conn-table.php' name = 'select' method = 'post'><br><br>
       <p>View Order of Rows:</p>
       <select name = 'order' id = 'order'>
         <option value = 'lastModified'>Date Last Modified</option>
@@ -56,11 +56,11 @@
       <input type = 'radio' name ='radDir' value = 'ASC'/>Ascending Order
 
       <p>How many rows would you like to view?</p>
-      <input type = 'text' name = 'limit'/>
+      <input type = 'text' name = 'limit'/><br><br>
 
-      <input class = 'button' type = 'submit' value = 'Next Page'/>
+      <input class = 'button' type = 'submit' value = 'Next Page'/><br><br>
 
-      <input class = 'option' value = 'Individual Search' onclick = "window.location.href = '/Individual_Search.php'">
+      <input class = 'button' value = 'Individual Search' onclick = "window.location.href = '/Individual_Search.php'">
     </form>
   </body>
 </html>

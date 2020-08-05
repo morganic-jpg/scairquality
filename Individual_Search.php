@@ -4,9 +4,9 @@
     <title>Search Engine</title>
     <div>
       <h1 class = 'a'>Sunshine Coast Air Quality</h1>
-      <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-      <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
-      <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+      <input type = 'button' class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
+      <input type = 'button' class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
+      <input type = 'button' class = 'option' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
     </div>
 
     <style>
