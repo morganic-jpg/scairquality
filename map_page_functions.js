@@ -1,6 +1,15 @@
             var settingstring_1 = "<input style = 'margin: 2px;' type = 'button' class = 'button' onclick = 'zoomdropDown();' value = 'Change Location Zoom'><br>";
             var settingstring_2 = "<input style = 'margin: 2px;' type = 'button' class = 'button' onclick = 'dropDown();' value = 'Change Correction Factor'><br>";
+            var settingstring_3 = "<input style = 'margin: 2px;' type = 'button' class = 'button' onclick = 'avgdropDown();' value = 'View Historical Averages'><br>";
             var settingstring = settingstring_1 + settingstring_2;
+            var avgdropdown = "<select id = 'avg_options' class = 'option'>" +
+                "<option hidden disabled selected value>-- Select Option --</option>" +
+                    "<option value = '0'>Current Reading</option>" +
+                    "<option value = '1'>1 hr Average</option>" +
+                    "<option value = '2'>3 hr Average</option>" +
+                    "<option value = '3'>6 hr Average</option>" +
+                    "<option value = '4'>24 hr Average</option>" +
+                "<select>";
             var zoomdropdown = "<select id = 'zoom_options' class = 'option'>" +
                 "<option hidden disabled selected value>-- Select Option --</option>" +
                     "<option value = '1'>Center on Location</option>" +
@@ -17,24 +26,44 @@
             
             function dropDown()
             {   
-                if (open_0 == true && open_1 == true)
+                if (open_0 == true && open_1 == true && open_2 == true)
                 {
-                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2);
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + settingstring_3 + avgdropdown);
                     open_0 = false;
                 }
-                else if (open_0 == false && open_1 == false)
+                else if (open_0 == false && open_1 == false && open_2 == true)
                 {
-                    $('#settings').html(settingstring + correctdropdown);
+                    $('#settings').html(settingstring + correctdropdown + settingstring_3 + avgdropdown);
                     open_0 = true;
                 }
-                else if (open_0 == false && open_1 == true)
+                else if (open_0 == false && open_1 == true && open_2 == true)
                 {
-                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown);
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown + settingstring_3 + avgdropdown);
                     open_0 = true;
                 }
-                else if (open_0 == true && open_1 == false)
+                else if (open_0 == true && open_1 == false && open_2 == true)
                 {
-                    $('#settings').html(settingstring);
+                    $('#settings').html(settingstring + settingstring_3 + avgdropdown);
+                    open_0 = false;
+                }
+                else if (open_0 == true && open_1 == true && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + settingstring_3);
+                    open_0 = false;
+                }
+                else if (open_0 == false && open_1 == false && open_2 == false)
+                {
+                    $('#settings').html(settingstring + correctdropdown + settingstring_3);
+                    open_0 = true;
+                }
+                else if (open_0 == false && open_1 == true && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown + settingstring_3);
+                    open_0 = true;
+                }
+                else if (open_0 == true && open_1 == false && open_2 == false)
+                {
+                    $('#settings').html(settingstring + settingstring_3);
                     open_0 = false;
                 }
                 
@@ -42,25 +71,89 @@
 
             function zoomdropDown()
             {   
-                if (open_1 == true && open_0 == true)
+                if (open_1 == true && open_0 == true && open_2 == true)
                 {
-                    $('#settings').html(settingstring + correctdropdown);
+                    $('#settings').html(settingstring + correctdropdown + settingstring_3 + avgdropdown);
                     open_1 = false;
                 }
-                else if (open_1 == false && open_0 == false)
+                else if (open_1 == false && open_0 == false && open_2 == true)
                 {
-                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2);
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + settingstring_3 + avgdropdown);
                     open_1 = true;
                 }
-                else if (open_1 == false && open_0 == true)
+                else if (open_1 == false && open_0 == true && open_2 == true)
                 {
-                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown);
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown + settingstring_3 + avgdropdown);
                     open_1 = true;
                 }
-                else if (open_1 == true && open_0 == false)
+                else if (open_1 == true && open_0 == false && open_2 == true)
                 {
-                    $('#settings').html(settingstring);
+                    $('#settings').html(settingstring + settingstring_3 + avgdropdown);
                     open_1 = false;
+                }
+                else if (open_1 == true && open_0 == true && open_2 == false)
+                {
+                    $('#settings').html(settingstring + correctdropdown + settingstring_3);
+                    open_1 = false;
+                }
+                else if (open_1 == false && open_0 == false && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + settingstring_3);
+                    open_1 = true;
+                }
+                else if (open_1 == false && open_0 == true && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown + settingstring_3);
+                    open_1 = true;
+                }
+                else if (open_1 == true && open_0 == false && open_2 == false)
+                {
+                    $('#settings').html(settingstring + settingstring_3);
+                    open_1 = false;
+                }
+            }
+
+            function avgdropDown()
+            {   
+                if (open_1 == true && open_0 == true && open_2 == true)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown + settingstring_3);
+                    open_2 = false;
+                }
+                else if (open_1 == false && open_0 == false && open_2 == true)
+                {
+                    $('#settings').html(settingstring + settingstring_3);
+                    open_2 = false;
+                }
+                else if (open_1 == false && open_0 == true && open_2 == true)
+                {
+                    $('#settings').html(settingstring + correctdropdown + settingstring_3);
+                    open_2 = false;
+                }
+                else if (open_1 == true && open_0 == false && open_2 == true)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + settingstring_3);
+                    open_2 = false;
+                }
+                else if (open_1 == true && open_0 == true && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + correctdropdown + settingstring_3 + avgdropdown);
+                    open_2 = true;
+                }
+                else if (open_1 == false && open_0 == false && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + settingstring_2 + settingstring_3 + avgdropdown);
+                    open_2 = true;
+                }
+                else if (open_1 == false && open_0 == true && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + settingstring_2 + correctdropdown + settingstring_3 + avgdropdown);
+                    open_2 = true;
+                }
+                else if (open_1 == true && open_0 == false && open_2 == false)
+                {
+                    $('#settings').html(settingstring_1 + zoomdropdown + settingstring_2 + settingstring_3 + avgdropdown);
+                    open_2 = true;
                 }
             }
             
@@ -72,10 +165,11 @@
                     is_open = false;
                     open_0 = false;
                     open_1 = false;
+                    open_2 = false;
                 }
                 else if (is_open == false)
                 {
-                    $('#settings').html(settingstring);
+                    $('#settings').html(settingstring + settingstring_3);
                     is_open = true;
                 }
             }
@@ -99,7 +193,8 @@
 
                     request.done(function (response, textStatus, jqXHR){
                         var correction = Cookies.get('correction_factor');
-                        setMarkers(response, correction);
+                        var averages = Cookies.get('average');
+                        setMarkers(response, correction, averages);
                         //console.log(response);
                         console.log("Hooray, it worked!");
                     });
@@ -122,7 +217,7 @@
                 markers = [];
             }
 
-            function setMarkers(values, correctiontype)
+            function setMarkers(values, correctiontype, average)
             {
                 var infowindow = new google.maps.InfoWindow();
 
@@ -219,7 +314,27 @@
                     //Sets the Lat Lng and Air quality Value for each sensor
                     var location = new google.maps.LatLng(master[i][4], master[i][5]);
 
-                    rounded[i] = String(Math.round(master[i][2] * 10) / 10);
+                    if (average == 0)
+                    {
+                        rounded[i] = String(Math.round(master[i][2] * 10) / 10);
+                    }
+                    else if (average == 1)
+                    {
+                        rounded[i] = String(Math.round(master[i][6] * 10) / 10);
+                    }
+                    else if (average == 2)
+                    {
+                        rounded[i] = String(Math.round(master[i][7] * 10) / 10);
+                    }
+                    else if (average == 3)
+                    {
+                        rounded[i] = String(Math.round(master[i][8] * 10) / 10);
+                    }
+                    else if (average == 4)
+                    {
+                        rounded[i] = String(Math.round(master[i][9] * 10) / 10);
+                    }
+                    
 
                     var icon_type;
                     if ((rounded[i] > 100) && (rounded[i] < 1000))
@@ -271,7 +386,8 @@
                         icon_type = icon_NA
                     }
 
-                    contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i]; + " ID: " + master[i][0] + "<br>" + "Past Hr: " + master[i][6] + " Past 24 Hrs: " + master[i][7] + " Past Week: " + master[i][8];
+                    contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0];
+                    // "<br>" + "Past Hr: " + master[i][6] + " Past 24 Hrs: " + master[i][7] + " Past Week: " + master[i][8];
                 
                     //creates new markers
                     var label_value = String(correctionFactor(rounded[i], correctiontype));
@@ -378,6 +494,5 @@
                     }
                 }
 
-                console.log("Correcting " + value + " ----> " + corrected);
                 return corrected;
             }
