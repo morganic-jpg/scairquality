@@ -13,53 +13,64 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-tableid = 1314
+# opens JSON file as a readable string and assigns the
+# region list to a variable
+monitor_list = open("/home/legal-server/python_code/monitor_list.json", "r")
+region_list = json.loads(monitor_list.read())
+ID_list = region_list["Regions"]
+total_ids = []
 
-sql = "SELECT * FROM monitor_data WHERE ID = " + str(tableid) + " OR ParentID =" + str(tableid) + ";"
+# concatenates all monitor ids from the region list into one variable
+for i in ID_list:
+    # for every ID in each region add another ID equal to the original
+    # ID plus 1 (This is the B channel for each monitor)
+    for x in i["Stations"]:
+        total_ids.append(x)
+print(total_ids)
 
-mycursor.execute(sql)
+for tableid in total_ids:
 
-desc = mycursor.description
-column_names = [col[0] for col in desc]
-data = [dict(zip(column_names, row))
-        for row in mycursor.fetchall()]
-output_data = []
+  sql = "SELECT * FROM monitor_data WHERE ID = " + str(tableid) + " OR ParentID =" + str(tableid) + ";"
 
-for i in data:
-  x = {}
-  if int(i["ID"]) == int(tableid):
-    x["AChannel"] = int(i["PM2_5Value"])
-  if int(i["ID"]) != int(tableid) & int(i["ParentID"]) == int(tableid):
-    x["BChannel"] = int(i["PM2_5Value"])
+  mycursor.execute(sql)
+
+  desc = mycursor.description
+  column_names = [col[0] for col in desc]
+  data = [dict(zip(column_names, row))
+          for row in mycursor.fetchall()]
+  output_data = []
+
+  for a in range(0, len(data)):
+    i = data[a]
+    x = {}
+    if int(i["ID"]) == int(tableid):
+      x["AChannel"] = i["PM2_5Value"]
+      x["lastModified"] = i["lastModified"]
+    else:
+      continue
+
+    for c in range(a+1, len(data)):
+      b = data[c]
+      #print("Timestamp comparison:", b["lastModified"], x["lastModified"], b["lastModified"] - x["lastModified"])
+      if b["lastModified"] == x["lastModified"] and str(b["ParentID"]) == str(tableid):
+        x["BChannel"] = b["PM2_5Value"]
+      break
+
+    #print("Appending: ", x)
+    output_data.append(x)
+
+  sql_del = "DROP TABLE IF EXISTS sensor" + str(tableid) + ";"
+  sql2 = "CREATE TABLE sensor" + str(tableid) + "(AChannel float, BChannel float, lastModified datetime)"
+  mycursor.execute(sql_del)
+  mycursor.execute(sql2)
+
+  for monitor in output_data:
+    sql3 = "INSERT INTO sensor" + str(tableid) + " (AChannel, BChannel, lastModified) VALUES (%s, %s, %s)"
+    val = (str(monitor.get("AChannel", 0)), str(monitor.get("BChannel", 0)), str(monitor.get("lastModified", "null")))
+
+    mycursor.execute(sql3, val)
+    mydb.commit()
     
-  x["lastModified"] = i["lastModified"]
-  print("Appending %s", x)
-  output_data.append(x)
-
-"""for i in data:
-  x = {}
-  channelstatus = 'null'
-  if int(i["ID"]) == int(tableid):
-    x["AChannel"] = int(i["PM2_5Value"])
-    print("Is Parent")
-    channelstatus == 'A'
-  elif int(i["ID"]) != int(tableid) & int(i["ParentID"]) == int(tableid):
-    x["BChannel"] = int(i["PM2_5Value"])
-    print("Is Child")
-    channelstatus == 'B'
-  x["lastModified"] = i["lastModified"]
-
-  for b in data:
-    print("Timestamp comparison:", b["lastModified"], x["lastModified"])
-    if str(b["lastModified"]) == str(x["lastModified"]):
-      if channelstatus == 'B':
-        x["AChannel"] = int(b["PM2_5Value"])
-        print("Adding B Channel to Parent")
-      elif channelstatus == 'A':
-        x["BChannel"] = int(b["PM2_5Value"])
-        print("Adding A Chennel to Child")"""
-
-  print("Appending: ", x)
-  output_data.append(x)
-
 #print(output_data)
+#print(len(data) / 2)
+#print(len(output_data))
