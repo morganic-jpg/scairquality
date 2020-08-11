@@ -409,31 +409,9 @@
 
                             google.maps.event.addListener(infowindow, 'domready', function(){
                                 ajaxhistoricalRetrieve(master[i][0]);
-                                /*var mychart = Highcharts.chart('container', {
-                                    chart: {
-                                        type: 'spline'
-                                    },
-                                    yAxis: {
-                                        title: {
-                                            text: 'Air Qualiy (ug/m3)'
-                                        }
-                                    },
-                                    xAxis: {
-                                        title: {
-                                            text: 'Time'
-                                        }
-                                    },
-                                    title: {
-                                        text: 'Air Quality For Sensor: ' + master[i][0]
-                                    }
-                                });*/
                             });
                         }
                     })(marker, i)); 
-
-                    document.addEventListener('DOMContentLoaded', function () {
-                        console.log('Placing chart at: ' + 'container' + i);
-                    });
                 }
 
             }
@@ -550,8 +528,8 @@
                     });
 
                     request.done(function (response){
-			            $("#" + element).html(response);
-                        console.log("Response: " + response);
+                        drawChart(sensor, element, response);
+                        console.log(response);
                     });
 
                     request.fail(function(jqXHR, textStatus, errorThrown){
@@ -560,4 +538,34 @@
                         );
                     });
                 });
+            }
+            function drawChart(sensor, element, data)
+            {
+                    console.log('Placing chart at: ' + element);
+                    var mychart = Highcharts.chart(element, {
+                        chart: {
+                            zoomType: 'x'
+                        },
+                        yAxis: {
+                            title: {
+                                    text: 'Air Qualiy (ug/m3)'
+                                }
+                        },
+                        xAxis: {
+                                type: 'datetime',
+                                tickWidth: 1
+                        },
+                        title: {
+                                text: 'Air Quality For Sensor: ' + sensor
+                            },
+                        plotOptions: {
+                                series: {
+                                    turboThreshold: 0
+                                }
+                            },
+                        series: [{
+                            name: 'A Channel',
+                            data: data
+                        }]
+                        });
             }
