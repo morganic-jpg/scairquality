@@ -23,6 +23,7 @@
                     "<option value = '3'>U of Utah</option>" +
                     "<option value = '4'>UNBC</option>" +
                 "<select>";
+                var hist_data;
             
             function dropDown()
             {   
@@ -196,7 +197,7 @@
                         var averages = Cookies.get('average');
                         setMarkers(response, correction, averages);
                         //console.log(response);
-                        console.log("Hooray, it worked!");
+                        //console.log("Hooray, it worked!");
                     });
 
                     request.fail(function (jqXHR, textStatus, errorThrown){
@@ -334,6 +335,10 @@
                     {
                         rounded[i] = String(Math.round(master[i][9] * 10) / 10);
                     }
+                    else
+                    {
+                        rounded[i] = String(Math.round(master[i][2] * 10) / 10);
+                    }
                     
 
                     var icon_type;
@@ -386,8 +391,9 @@
                         icon_type = icon_NA
                     }
 
-                    contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0];
+                    //contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0];
                     // "<br>" + "Past Hr: " + master[i][6] + " Past 24 Hrs: " + master[i][7] + " Past Week: " + master[i][8];
+                    var contentstring = "<div id = 'container" + master[i][0] + "'></div>";
                 
                     //creates new markers
                     var label_value = String(correctionFactor(rounded[i], correctiontype));
@@ -397,10 +403,37 @@
                     //creates pop-ups
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
-                            infowindow.setContent(contentstring[i]);
                             infowindow.open(map, marker);
+                            infowindow.setContent("<div id = 'container" + master[i][0] + "'></div>");
+                            console.log(contentstring);
+
+                            google.maps.event.addListener(infowindow, 'domready', function(){
+                                ajaxhistoricalRetrieve(master[i][0]);
+                                /*var mychart = Highcharts.chart('container', {
+                                    chart: {
+                                        type: 'spline'
+                                    },
+                                    yAxis: {
+                                        title: {
+                                            text: 'Air Qualiy (ug/m3)'
+                                        }
+                                    },
+                                    xAxis: {
+                                        title: {
+                                            text: 'Time'
+                                        }
+                                    },
+                                    title: {
+                                        text: 'Air Quality For Sensor: ' + master[i][0]
+                                    }
+                                });*/
+                            });
                         }
                     })(marker, i)); 
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        console.log('Placing chart at: ' + 'container' + i);
+                    });
                 }
 
             }
@@ -493,6 +526,38 @@
                         console.log("Value did not meet requirements for correction factor")
                     }
                 }
+                else
+                {
+                    corrected = value;
+                }
 
                 return corrected;
+            }
+            function ajaxhistoricalRetrieve(sensor)
+            {
+                console.log("Post: " + sensor);
+                postarray = 'val=' + sensor;
+		        element = "container" + sensor;
+		        console.log(element);
+                $(document).ready(function(){
+                    var request;
+
+                    request = $.ajax({
+                        url: "/hist_database_conn.php",
+                        type: "post",
+                        dataType: "text",
+                        data: postarray
+                    });
+
+                    request.done(function (response){
+			            $("#" + element).html(response);
+                        console.log("Response: " + response);
+                    });
+
+                    request.fail(function(jqXHR, textStatus, errorThrown){
+                        console.error("The following error occurred: " +
+                        textStatus, errorThrown
+                        );
+                    });
+                });
             }
