@@ -36,7 +36,7 @@ else:
 sql3 = "DELETE FROM monitor_data WHERE lastModified < '" + delete_before + "';" 
 
 #Update Main Backup Table
-sql4 = "INSERT INTO monitor_data2019 SELECT * FROM monitor_data;"
+sql4 = "INSERT INTO historical_data SELECT * FROM monitor_data;"
 
 print('Executing:\n', sql, sql2, sql3, sql4)
 
