@@ -21,7 +21,7 @@
                 margin: 0;
                 text-align: center;
                 left: 50%;
-                transform: translate(-50%)
+                transform: translate(-50%);
             }
             #settings
             {
@@ -59,7 +59,7 @@
                 <h1 class = 'a'>Sunshine Coast Air Quality</h1>
                 <input type = 'button' class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
                 <input type = 'button' class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
-                <input type = 'button' class = 'option' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+                <input type = 'button' class = 'option' value = 'Search Engine' onclick = "window.location.href = '/Individual_Search.php'">
             </div>
             <div id = 'settings'>
             </div>  
@@ -85,6 +85,8 @@
                     center: gibsons,
                     zoom: 10,
                     mapTypeId: 'terrain',
+                    streetViewControl: false,
+                    fullscreenControl: false,
                     options: {
                         gestureHandling: 'greedy'
                     }

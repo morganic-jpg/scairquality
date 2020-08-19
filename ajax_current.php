@@ -2,14 +2,15 @@
 <html class = 'a'>
   <head>
   <title>Current Values</title>
-  <div>
-    <h1 class = 'a'>Sunshine Coast Air Quality</h1>
-    <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-    <input class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
-    <input class = 'option' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
-   </div>
+    <div>
+      <h1 class = 'a'>Sunshine Coast Air Quality</h1>
+      <input type = 'button' class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
+      <input type = 'button' class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
+      <input type = 'button' class = 'option' value = 'Search Engine' onclick = "window.location.href = '/Individual_Search.php'">
+    </div>
     <style>
       @import url('current_vals.css');
+      @import url('global.css');
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>

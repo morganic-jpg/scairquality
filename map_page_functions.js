@@ -24,6 +24,7 @@
                     "<option value = '4'>UNBC</option>" +
                 "<select>";
                 var hist_data;
+            var chart_view = '_daily';
             
             function dropDown()
             {   
@@ -228,86 +229,86 @@
 
                 var icon_10 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_10.png",
-                scaledSize: new google.maps.Size(40, 40),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(20,20)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_20 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_20.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_30 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_30.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_40 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_40.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_50 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_50.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_60 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_60.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_70 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_70.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_80 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_80.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_90 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_90.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_100 = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_100.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_100plus = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_100+.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 var icon_NA = {
                 url: "https://scairquality.ca/Map_Icons/Map_Icon_NA.png",
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(30, 30),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(25,25)
+                anchor: new google.maps.Point(15,15)
                 };
 
                 for (let i = 0; i < master.length; i++)
@@ -344,22 +345,27 @@
                     var icon_type;
                     if ((rounded[i] > 100) && (rounded[i] < 1000))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_100plus;
                     }
                     else if ((rounded[i] < 100) && (rounded[i] >= 90))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_100;
                     }
                     else if ((rounded[i] < 90) && (rounded[i] >= 80))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_90;
                     }
                     else if ((rounded[i] < 80) && (rounded[i] >= 70))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_80;
                     }
                     else if ((rounded[i] < 70) && (rounded[i] >= 60))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_70;
                     }
                     else if ((rounded[i] < 60) && (rounded[i] >= 50))
@@ -368,18 +374,22 @@
                     }
                     else if ((rounded[i] < 50) && (rounded[i] >= 40))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_50;
                     }
                     else if ((rounded[i] < 40) && (rounded[i] >= 30))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_40;
                     }
                     else if ((rounded[i] < 30) && (rounded[i] >= 20))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_30;
                     }
                     else if ((rounded[i] < 20) && (rounded[i] >= 10))
                     {
+                        rounded[i] = Math.round(rounded[i]);
                         icon_type = icon_20;
                     }
                     else if ((rounded[i] < 10) && (rounded[i] >= 0))
@@ -393,22 +403,28 @@
 
                     //contentstring[i] = "Name: " + master[i][1] + " Value: " + rounded[i] + " ID: " + master[i][0];
                     // "<br>" + "Past Hr: " + master[i][6] + " Past 24 Hrs: " + master[i][7] + " Past Week: " + master[i][8];
-                    var contentstring = "<div id = 'container" + master[i][0] + "'></div>";
+
+                    contentstring = "<select id = 'time_period'>" +
+                        "<option value = '_hourly'>Hourly</option> " +
+                        "<option value = '_daily'>Daily</option>" +
+                    "</select>";
                 
                     //creates new markers
                     var label_value = String(correctionFactor(rounded[i], correctiontype));
-                    var marker = new google.maps.Marker({position: location, map: map, label: label_value, icon: icon_type});
+                    var marker = new google.maps.Marker({position: location, map: map, label: {text: label_value, fontSize: '12px'}, icon: icon_type});
                     markers.push(marker);
                     
                     //creates pop-ups
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
                             infowindow.open(map, marker);
-                            infowindow.setContent("<div id = 'container" + master[i][0] + "'></div>");
-                            console.log(contentstring);
+                            infowindow.setContent(contentstring + "<div class = 'infowindow' id = 'container" + master[i][0] + "'></div>");
+                            
+                            var latlng = marker.getPosition();
+                            map_recenter(latlng, 0, -200);
 
                             google.maps.event.addListener(infowindow, 'domready', function(){
-                                ajaxhistoricalRetrieve(master[i][0]);
+                                ajaxhistoricalRetrieve(master[i][0], chart_view);
                             });
                         }
                     })(marker, i)); 
@@ -511,12 +527,12 @@
 
                 return corrected;
             }
-            function ajaxhistoricalRetrieve(sensor)
+            function ajaxhistoricalRetrieve(sensor, time_period)
             {
-                console.log("Post: " + sensor);
-                postarray = 'val=' + sensor;
+                //console.log("Post: " + sensor);
+                postarray = 'val=' + sensor + time_period;
 		        element = "container" + sensor;
-		        console.log(element);
+		        //console.log(element);
                 $(document).ready(function(){
                     var request;
 
@@ -529,7 +545,7 @@
 
                     request.done(function (response){
                         drawChart(sensor, element, response);
-                        console.log(response);
+                        //console.log(response);
                     });
 
                     request.fail(function(jqXHR, textStatus, errorThrown){
@@ -541,14 +557,19 @@
             }
             function drawChart(sensor, element, data)
             {
-                    console.log('Placing chart at: ' + element);
+                    //console.log('Placing chart at: ' + element);
+                    data_array = JSON.parse(data);
+                    console.log(data_array[0]);
+
                     var mychart = Highcharts.chart(element, {
                         chart: {
                             zoomType: 'x'
                         },
                         yAxis: {
                             title: {
-                                    text: 'Air Qualiy (ug/m3)'
+                                    text: 'Air Qualiy (ug/m3)',
+                                    type: 'linear',
+                                    tickInterval: 1
                                 }
                         },
                         xAxis: {
@@ -564,7 +585,25 @@
                             },
                         series: [{
                             name: 'A Channel',
-                            data: data
+                            data: data_array[0][0]
+                        },
+                        {
+                            name: 'B Channel',
+                            color: '#910000',
+                            data: data_array[0][1]
                         }]
                         });
+    }
+    function map_recenter(latlng,offsetx,offsety) {
+        var point1 = map.getProjection().fromLatLngToPoint(
+            (latlng instanceof google.maps.LatLng) ? latlng : map.getCenter()
+        );
+        var point2 = new google.maps.Point(
+            ( (typeof(offsetx) == 'number' ? offsetx : 0) / Math.pow(2, map.getZoom()) ) || 0,
+            ( (typeof(offsety) == 'number' ? offsety : 0) / Math.pow(2, map.getZoom()) ) || 0
+        );  
+        map.setCenter(map.getProjection().fromPointToLatLng(new google.maps.Point(
+            point1.x - point2.x,
+            point1.y + point2.y
+        )));
     }

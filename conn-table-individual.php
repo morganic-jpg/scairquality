@@ -4,8 +4,8 @@
     <div>
       <h1 class = 'a'>Sunshine Coast Air Quality</h1>
       <input class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
-      <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/Current_values.php'">
-      <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+      <input class = 'option2' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
+      <input class = 'option3' value = 'Search Engine' onclick = "window.location.href = '/Individual_Search.php'">
    </div>
     <style>
       @import url('current_vals.css');
@@ -27,10 +27,11 @@
         die("Connection failed: " . $conn->connect_error);
       }
 
-      $v = $_POST['radDir'];
+      $v = $_POST['ascdesc'];
       $sensor_id = $_POST['id_box'];
       $time = $_POST['time_drop'];
       $leng = $_POST['limit'];
+
 
       #if the user wants to view hourly data, set the right query and column titles
       if ($time == 'hour')

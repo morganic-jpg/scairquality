@@ -6,25 +6,13 @@
       <h1 class = 'a'>Sunshine Coast Air Quality</h1>
       <input type = 'button' class = 'option' value = 'Home' onclick = "window.location.href = '/index.php'">
       <input type = 'button' class = 'option' value = 'Current Values' onclick = "window.location.href = '/ajax_current.php'">
-      <input type = 'button' class = 'option' value = 'Search Engine' onclick = "window.location.href = '/search.php'">
+      <input type = 'button' class = 'option' value = 'Search Engine' onclick = "window.location.href = '/Individual_Search.php'">
     </div>
-
     <style>
       @import url('global.css');
     </style>
   </head>
   <body>
-    <div class = 'logo'>
-      <a href = 'https://www.cleanaironthecoast.com/'>
-        <img class = 'logo' src = 'logo.gif'>
-        </img>
-      </a>
-    </div>
-    <div class = 'logo2'>
-      <a href = 'https://www.2degreesinstitute.org/'>
-        <img class = 'logo2' src = 'logo2.png'>
-        </img>
-      </a>
     </div>
     <form action = 'conn-table-individual.php' name = 'select1' method = 'post'/><br><br>
       <p>Enter ID of Sensor:</p>
@@ -37,11 +25,13 @@
       </select>
 
       <p>Select one option:</p>
-      <input type = 'radio' name ='radDir' value = 'DESC'/>Descending Order<br>
-      <input type = 'radio' name ='radDir' value = 'ASC'/>Ascending Order
+      <select id = 'ascdesc' name = 'ascdesc'>
+        <option value = 'DESC'>Descending Order</option>
+        <option value = 'ASC'>Ascending Order</option>
+      </select>
 
       <p>How many rows would you like to view?</p>
-      <input type = 'text' name = 'limit'/>
+      <input type = 'text' name = 'limit'/><br><br>
 
       <input class = 'button' type = 'submit' value = 'Next Page'/>
     </form>
