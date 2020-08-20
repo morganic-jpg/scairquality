@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class='a'>
+    <!--<meta name='viewport' content='width=device-width, initial-scale=1.00, maximum-scale=1.00, minimum-scale=1.00, user-scalable=no'>-->
     <head>
         <title>Home</title>
         <style>
@@ -48,7 +49,8 @@
         </style>
         <script src ="https://scairquality.ca/map_page_functions.js"></script>
         <script src ="https://scairquality.ca/chart_plugin.js"></script>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
+        <script src="https://code.highcharts.com/stock/highstock.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     </head>
@@ -63,7 +65,7 @@
             </div>
             <div id = 'settings'>
             </div>  
-            <input type = 'button' id = 'menu' class = 'button' value = 'Map Options' onclick = 'openPopup();'>
+            <input type = 'button' id = 'menu' class = 'button' value = 'Map Options' onclick = 'checkWindow();'>
         </div>
         <div id = 'container' style = 'width:400px; height:200px;'></div>
         <script>
@@ -76,6 +78,7 @@
             var markers = [];
             var gibsons = {lat: 49.401154, lng: -123.5075};
             var rounded = new Array();
+            var data_pass = new Array();
             var contentstring = new Array();
             var current_zoom;
 
