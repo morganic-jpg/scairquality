@@ -47,7 +47,7 @@
             }
            
         </style>
-        <script src ="https://scairquality.ca/map_page_functions.js"></script>
+        <script src ="https://scairquality.ca/map_page_functions.js?1"></script>
         <script src ="https://scairquality.ca/chart_plugin.js"></script>
         <!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
         <script src="https://code.highcharts.com/stock/highstock.js"></script>
@@ -65,7 +65,7 @@
             </div>
             <div id = 'settings'>
             </div>  
-            <input type = 'button' id = 'menu' class = 'button' value = 'Map Options' onclick = 'checkWindow();'>
+            <input type = 'button' id = 'menu' class = 'button' value = 'Map Options' onclick = 'openPopup();'>
         </div>
         <div id = 'container' style = 'width:400px; height:200px;'></div>
         <script>
@@ -99,8 +99,9 @@
                 //Cookies.set('average', 0);
                 setMapzoom();
                 ajaxRetrieve();
-                setInterval(ajaxRetrieve, 120*1000);
+                setInterval(ajaxRetrieve, 60*1000);
             }
+            
             $(document).ready(function() {
  
             //Triggers when a change occurs in the specified element
