@@ -71,7 +71,7 @@ for b in data:
                 avg_data.append(x)
                 # print(avg_data)
 for monitor in avg_data:
-    sql = "REPLACE INTO cur_avg_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, LastSeen, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
+    sql = "REPLACE INTO cur_avg_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     val = (
         str(
             monitor.get(
@@ -93,9 +93,7 @@ for monitor in avg_data:
             monitor.get(
                 "Lon", 0)), str(
             monitor.get(
-                "PM2_5Value", 0)), str(
-            monitor.get(
-                "LastSeen", "null")), str(
+                "PM2_5Value", 0)),  str(
             monitor.get(
                 "Type", "null")), str(
             monitor.get(

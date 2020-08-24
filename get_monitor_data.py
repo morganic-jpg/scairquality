@@ -126,7 +126,7 @@ MYSQL = MYSQL + "THINGSPEAK_SECONDARY_ID_READ_KEY VARCHAR(20)" + ", "
 MYSQL = MYSQL + "Lat FLOAT" + ", "
 MYSQL = MYSQL + "Lon FLOAT" + ", "
 MYSQL = MYSQL + "PM2_5Value FLOAT" + ", "
-MYSQL = MYSQL + "LastSeen DATETIME" + ", "
+#MYSQL = MYSQL + "LastSeen DATETIME" + ", "
 #    - State - <NOT USED> - maybe VARCHAR(20)
 MYSQL = MYSQL + "Type VARCHAR(64)" + ", "
 MYSQL = MYSQL + "Hidden VARCHAR(10)" + ", "
@@ -248,9 +248,9 @@ for monitor in local_array:
     print("MONITOR REGION IS:", monitor_region)
 
     # Create SQL string to insert a row into the database table.
-    sql = "INSERT INTO " + TABLE_NAME + " (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, LastSeen, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
-    sql_hist = "INSERT INTO monitor_data2019 (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, LastSeen, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
-    sql_cur = "REPLACE INTO current_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, LastSeen, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
+    sql = "INSERT INTO " + TABLE_NAME + " (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql_hist = "INSERT INTO historical_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql_cur = "REPLACE INTO current_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
     # Create a list of the data we are going to insert into the table.
     val = (
@@ -274,8 +274,7 @@ for monitor in local_array:
             monitor.get(
                 "Lon", 0)), str(
             monitor.get(
-                "PM2_5Value", 0)), 
-            dt, 
+                "PM2_5Value", 0)),  
             monitor.get(
                 "Type", "null"), 
             monitor.get(
@@ -320,8 +319,8 @@ for monitor in local_array:
 
     # Insert the data into the table.
     print("**********************INSERTING DATA**********************\n", sql_hist, val)
-    #mycursor.execute(sql_hist, val)
-    #mydb.commit()
+    mycursor.execute(sql_hist, val)
+    mydb.commit()
 
     # Insert the current data into the current_values table.
     print("**********************INSERTING DATA**********************\n", sql_cur, val)
