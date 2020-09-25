@@ -187,13 +187,9 @@ total_ids = []
 
 # concatenates all monitor ids from the region list into one variable
 for i in ID_list:
-    # for every ID in each region add another ID equal to the original
-    # ID plus 1 (This is the B channel for each monitor)
     for x in i["Stations"]:
         a_channel = x
-        b_channel = (x + 1)
         total_ids.append(a_channel)
-        total_ids.append(b_channel)
 
 MONITOR_IDS = total_ids
 
@@ -204,9 +200,17 @@ json_data = json.loads(raw_data)
 local_array = []
 monitor_array = json_data["results"]
 for item in monitor_array:
+    # If we find one of our A sensors in the json data add it.
     monitor_id = item["ID"]
     if monitor_id in MONITOR_IDS:
+        print("Adding A Sensor: " + str(monitor_id))
         local_array.append(item)
+    # If we find one of the b sensors in the json data add it.
+    if "ParentID" in item:
+        parent_id = item["ParentID"]
+        if parent_id in MONITOR_IDS:
+            print("Adding B Sensor: " + str(monitor_id))
+            local_array.append(item)
 
 # Go through the local_array and add the stats the the array item
 # instead of being a sub-array.
@@ -226,6 +230,12 @@ for item in local_array:
 # Insert data from each monitor into the SQL database.
 #
 ##########################################################################
+
+del_current = 'DELETE FROM current_data;'
+print('Wiping current_data')
+mycursor.execute(del_current)
+mydb.commit()
+
 for monitor in local_array:
     # Get the timestamp from the monitor data and convert to SQL date format.
     dt = datetime.fromtimestamp(monitor["lastModified"] / 1000)
@@ -250,7 +260,7 @@ for monitor in local_array:
     # Create SQL string to insert a row into the database table.
     sql = "INSERT INTO " + TABLE_NAME + " (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     sql_hist = "INSERT INTO historical_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    sql_cur = "REPLACE INTO current_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql_cur = "INSERT INTO current_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 
     # Create a list of the data we are going to insert into the table.
     val = (

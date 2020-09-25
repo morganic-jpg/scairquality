@@ -19,14 +19,16 @@ column_names = [col[0] for col in desc]
 data = [dict(zip(column_names, row))
         for row in mycursor.fetchall()]
 avg_data = []
-# print(data)
 
 for b in data:
     if b["ParentID"] == "null":
+        print("skipping " + str(b["ID"]))
         continue
     else:
+        print("adding " + str(b["ID"]))
         for a in data:
             if float(a["ID"]) == float(b["ParentID"]):
+                print("matched " + str(a["ID"]))
                 x = a
                 if (float(a["PM2_5Value"]) - float(b["PM2_5Value"])) >= 10:
                     print(str(a["PM2_5Value"]) +
@@ -70,8 +72,12 @@ for b in data:
                 # print(a, b, x)
                 avg_data.append(x)
                 # print(avg_data)
+del_current = 'DELETE FROM cur_avg_data;'
+print('Wiping cur_avg_data')
+mycursor.execute(del_current)
+mydb.commit()
 for monitor in avg_data:
-    sql = "REPLACE INTO cur_avg_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO cur_avg_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID, THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY, Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity, pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     val = (
         str(
             monitor.get(
