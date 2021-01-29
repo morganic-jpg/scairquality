@@ -21,7 +21,10 @@ data = [dict(zip(column_names, row))
 avg_data = []
 
 for b in data:
-    if b["ParentID"] == "null":
+    if b["Region"] == "Gov":
+        print("adding " + str(b["ID"]))
+        avg_data.append(x)
+    elif b["ParentID"] == "null":
         print("skipping " + str(b["ID"]))
         continue
     else:

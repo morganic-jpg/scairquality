@@ -86,6 +86,65 @@ else:
         print("  Valid Tables: monitor_data or nightly_monitor_data")
         exit()
 
+
+##########################################################################
+#
+# Get a list of all the monitor ids that we want data from.
+#
+##########################################################################
+# opens JSON file as a readable string and assigns the
+# region list to a variable
+monitor_list = open("/home/legal-server/python_code/monitor_list.json", "r")
+region_list = json.loads(monitor_list.read())
+ID_list = region_list["Regions"]
+total_ids = []
+
+# concatenates all monitor ids from the region list into one variable
+for i in ID_list:
+    for x in i["Stations"]:
+        a_channel = x
+        total_ids.append(a_channel)
+
+MONITOR_IDS = total_ids
+
+
+##########################################################################
+#
+# For Each Monitor ID, Get data the latest data from purpleair.com
+#
+##########################################################################
+PURPLE_AIR_WEBSITE = 'https://www.purpleair.com/json'
+
+# Loop through all the monitor ids, get the json data from purpleair.com 
+# and add that data to a monitor list.
+monitor_array = []
+for id in MONITOR_IDS:
+    url = PURPLE_AIR_WEBSITE + '?show=' + str(id)
+    response = requests.get(url)
+    raw_data = response.text
+    json_data = json.loads(raw_data)
+    if "results" in json_data:
+        monitor_array.extend(json_data["results"])
+
+# Sort the monitor list by ID.
+def sortParam(elem):
+    return elem['ID']
+monitor_array.sort(key=sortParam)
+
+
+# Go through the monitor_array and add the "Stats" to the item dictionary
+# instead of being a sub-dictionary.
+for item in monitor_array:
+    # convert stats text in python dictionary
+    stats = json.loads(item["Stats"])
+
+    # Remove the stats item from the dictionary
+    del item["Stats"]
+
+    # Insert stats dictionary into back into rest of data.
+    item.update(stats)
+
+
 ##########################################################################
 #
 # Connect to the MYSQL database on this machine, check to see if the selected
@@ -160,70 +219,6 @@ if not table_exists:
     mycursor.execute(MYSQL)
     print("Create Table: ", TABLE_NAME)
 
-##########################################################################
-#
-# Get raw json data from Purple Air website.
-#
-##########################################################################
-PURPLE_AIR_WEBSITE = 'http://www.purpleair.com/json'
-response = requests.get(PURPLE_AIR_WEBSITE)
-raw_data = response.text
-
-##########################################################################
-#
-# Convert the raw data into a python dictionary, parse the data for the listed
-# air monitors, and convert the raw sub-data into this array.
-#
-##########################################################################
-# A hard-coded list of all the air quality monitors we care about.
-# At a later time we can load this list from a file.
-
-# opens JSON file as a readable string and assigns the
-# region list to a variable
-monitor_list = open("/home/legal-server/python_code/monitor_list.json", "r")
-region_list = json.loads(monitor_list.read())
-ID_list = region_list["Regions"]
-total_ids = []
-
-# concatenates all monitor ids from the region list into one variable
-for i in ID_list:
-    for x in i["Stations"]:
-        a_channel = x
-        total_ids.append(a_channel)
-
-MONITOR_IDS = total_ids
-
-# Convert the data containing all purple air monitors into json.
-json_data = json.loads(raw_data)
-
-# Parse the json file to create an array of the sunshine coast data.
-local_array = []
-monitor_array = json_data["results"]
-for item in monitor_array:
-    # If we find one of our A sensors in the json data add it.
-    monitor_id = item["ID"]
-    if monitor_id in MONITOR_IDS:
-        print("Adding A Sensor: " + str(monitor_id))
-        local_array.append(item)
-    # If we find one of the b sensors in the json data add it.
-    if "ParentID" in item:
-        parent_id = item["ParentID"]
-        if parent_id in MONITOR_IDS:
-            print("Adding B Sensor: " + str(monitor_id))
-            local_array.append(item)
-
-# Go through the local_array and add the stats the the array item
-# instead of being a sub-array.
-for item in local_array:
-    # convert stats text in python dictionary
-    stats = json.loads(item["Stats"])
-
-    # Remove the stats item from the dictionary
-    del item["Stats"]
-
-    # Insert stats dictionary into back into rest of data.
-    item.update(stats)
-
 
 ##########################################################################
 #
@@ -236,7 +231,7 @@ print('Wiping current_data')
 mycursor.execute(del_current)
 mydb.commit()
 
-for monitor in local_array:
+for monitor in monitor_array:
     # Get the timestamp from the monitor data and convert to SQL date format.
     dt = datetime.fromtimestamp(monitor["lastModified"] / 1000)
 
