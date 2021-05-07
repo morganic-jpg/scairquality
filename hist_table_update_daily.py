@@ -41,9 +41,11 @@ else:
   sensor_list = total_ids
 
 # concatenates all monitor ids from the region list into one variable
-# for every ID in each region add another ID equal to the original
-# ID plus 1 (This is the B channel for each monitor)
-total_ids = [i["Stations"] for i in ID_list]
+for i in ID_list:
+    # for every ID in each region add another ID equal to the original
+    # ID plus 1 (This is the B channel for each monitor)
+    for x in i["Stations"]:
+        total_ids.append(x)
 #print(total_ids)
 
 for tableid in sensor_list:

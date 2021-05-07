@@ -54,14 +54,15 @@ for tableid in sensor_list:
 
   #sql = "SELECT * FROM monitor_data WHERE ID = " + str(tableid) + " OR ParentID =" + str(tableid) + ";"
 
-  sql = "SELECT ID, ParentID, Label, ROUND(AVG(PM2_5Value), 2) AS Average, ROUND(MAX(PM2_5Value), 2) AS Maximum, lastModified FROM historical_data WHERE id =" + str(tableid) + " OR ParentID = " + str(tableid) + " GROUP BY id, YEAR(LastModified), MONTH(LastModified), DAY(LastModified), HOUR(LastModified) ORDER BY LastModified"
+  sql = "SELECT ID, ParentID, Label, ROUND(AVG(PM2_5Value), 2) AS Average, ROUND(MAX(PM2_5Value), 2)" + \
+    " AS Maximum, lastModified FROM historical_data WHERE id =" + str(tableid) + " OR ParentID = " + \
+    str(tableid) + " GROUP BY id, YEAR(LastModified), MONTH(LastModified), DAY(LastModified), HOUR(LastModified) ORDER BY LastModified"
       
   mycursor.execute(sql)
 
   desc = mycursor.description
   column_names = [col[0] for col in desc]
-  data = [dict(zip(column_names, row))
-          for row in mycursor.fetchall()]
+  data = [dict(zip(column_names, row)) for row in mycursor.fetchall()]
   output_data = []
 
   print("Completed SELECT query for sensor #" + str(tableid))
