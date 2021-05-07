@@ -25,8 +25,7 @@ total_ids = []
 for i in ID_list:
     # for every ID in each region add another ID equal to the original
     # ID plus 1 (This is the B channel for each monitor)
-    for x in i["Stations"]:
-        total_ids.append(x)
+    total_ids.extend(i["Stations"])
 print(total_ids)
 
 for tableid in total_ids:
