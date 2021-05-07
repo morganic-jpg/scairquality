@@ -257,32 +257,32 @@ for monitor in monitor_array:
         " THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY," + \
         " Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity," + \
         " pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region)" + \
-        " VALUES (" + ("%s, "*29) + "%s)"
+        " VALUES (" + "%s, "*29 + "%s)"
     sql_hist = "INSERT INTO historical_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID," + \
         " THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY," + \
         " Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity," + \
         " pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region)" + \
-        " VALUES (" + ("%s, "*29) + "%s)"
+        " VALUES (" + "%s, "*29 + "%s)"
     sql_cur = "INSERT INTO current_data (ID, ParentID, Label, THINGSPEAK_PRIMARY_ID," + \
         " THINGSPEAK_PRIMARY_ID_READ_KEY, THINGSPEAK_SECONDARY_ID, THINGSPEAK_SECONDARY_ID_READ_KEY," + \
         " Lat, Lon, PM2_5Value, Type, Hidden, Flag, isOwner, A_H, temp_f, humidity," + \
         " pressure, AGE, v, v1, v2, v3, v4, v5, v6, pm, lastModified, timeSinceModified, Region)" + \
-        " VALUES (" + ("%s, "*29) + "%s)"
+        " VALUES (" + "%s, "*29 + "%s)"
 
     # Create a tuple of the data we are going to insert into the table.
     val = (
         str(monitor.get("ID", 0)),
         str(monitor.get("ParentID", "null")), 
-        monitor.get("Label", "null"),
+            monitor.get("Label", "null"),
         str(monitor.get("THINGSPEAK_PRIMARY_ID", 0)), 
-        monitor.get("THINGSPEAK_PRIMARY_ID_READ_KEY", "null"),
+            monitor.get("THINGSPEAK_PRIMARY_ID_READ_KEY", "null"),
         str(monitor.get("THINGSPEAK_SECONDARY_ID", 0)), 
-        monitor.get("THINGSPEAK_SECONDARY_ID_READ_KEY", "null"),
+            monitor.get("THINGSPEAK_SECONDARY_ID_READ_KEY", "null"),
         str(monitor.get("Lat", 0)),
         str(monitor.get("Lon", 0)),
         str(monitor.get("PM2_5Value", 0)),  
-        monitor.get("Type", "null"), 
-        monitor.get("Hidden", "null"),
+            monitor.get("Type", "null"), 
+            monitor.get("Hidden", "null"),
         str(monitor.get("Flag", "null")),
         str(monitor.get("isOwner", 0)),
         str(monitor.get("A_H", "null")),
@@ -297,8 +297,10 @@ for monitor in monitor_array:
         str(monitor.get("v4", 0)),
         str(monitor.get("v5", 0)),
         str(monitor.get("v6", 0)),
-        str(monitor.get("pm", 0)), dt,
-        str(monitor.get("timeSinceModified", "null")), str(monitor_region)
+        str(monitor.get("pm", 0)), 
+        dt,
+        str(monitor.get("timeSinceModified", "null")), 
+        str(monitor_region)
     )
 
     # Insert the data into the table.
