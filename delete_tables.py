@@ -15,6 +15,7 @@ mycursor = mydb.cursor()
 
 # opens JSON file as a readable string and assigns the
 # region list to a variable
+# This file should be closed properly at the end of this file
 monitor_list = open("/home/legal-server/python_code/monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
 ID_list = region_list["Regions"]
@@ -24,8 +25,8 @@ total_ids = []
 for i in ID_list:
     # for every ID in each region add another ID equal to the original
     # ID plus 1 (This is the B channel for each monitor)
-    for x in i["Stations"]:
-        total_ids.append(x)
+    total_ids.extend(i["Stations"])
+
 print(total_ids)
 
 for tableid in total_ids:
