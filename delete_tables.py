@@ -15,6 +15,7 @@ mycursor = mydb.cursor()
 
 # opens JSON file as a readable string and assigns the
 # region list to a variable
+# This file should be closed properly at the end of this file
 monitor_list = open("/home/legal-server/python_code/monitor_list.json", "r")
 region_list = json.loads(monitor_list.read())
 ID_list = region_list["Regions"]
