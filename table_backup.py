@@ -38,6 +38,7 @@ sql3 = "DELETE FROM monitor_data WHERE lastModified < '" + delete_before + "';"
 #Update Main Backup Table
 sql4 = "INSERT INTO historical_data SELECT * FROM monitor_data;"
 
+# could be a list of strings instead of 4 separately named objects?
 print('Executing:\n', sql, sql2, sql3, sql4)
 
 #Execute SQL queries

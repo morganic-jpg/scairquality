@@ -14,7 +14,11 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 #Create a View using my stupid complicated query
-sql = "SELECT table2.*, max(table2.PM2_5Value) AS MAX, min(table2.PM2_5Value) AS MIN, avg(table2.PM2_5Value) AS AVG FROM (SELECT *, max(lastModified) AS max_date FROM monitor_data GROUP BY ID) AS aggregated_table INNER JOIN monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified GROUP BY table2.lastModified ORDER BY table2.ID"
+sql = "SELECT table2.*, max(table2.PM2_5Value) AS MAX, min(table2.PM2_5Value)" + \
+  " AS MIN, avg(table2.PM2_5Value) AS AVG FROM (SELECT *, max(lastModified) AS" + \
+  " max_date FROM monitor_data GROUP BY ID) AS aggregated_table INNER JOIN" + \
+  " monitor_data AS table2 ON aggregated_table.max_date=table2.lastModified" + \
+  " GROUP BY table2.lastModified ORDER BY table2.ID"
 sql2 = "CREATE OR REPLACE VIEW Working_Data AS " + sql
 
 #sql3 = "DROP TABLE IF EXISTS Current_Data"
